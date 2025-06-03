@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: dotnet build TheOtherRoles/TheOtherRoles.csproj --configuration Release
 
-      - name: Upload TheOtherRoles
+      - name: Upload TheOtherRoles-Reworked
         uses: actions/upload-artifact@v4
         with:
           name: TheOtherRoles.dll
