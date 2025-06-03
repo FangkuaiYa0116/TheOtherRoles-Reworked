@@ -18,7 +18,7 @@ using static StarGen;
 
 namespace TheOtherRoles.Modules {
     public class ModUpdater : MonoBehaviour {
-        public const string RepositoryOwner = "TheOtherRolesAU";
+        public const string RepositoryOwner = "FangkuaiYa0116";
         public const string RepositoryName = "TheOtherRoles";
         public static ModUpdater Instance { get; private set; }
 

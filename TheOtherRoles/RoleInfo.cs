@@ -350,7 +350,7 @@ namespace TheOtherRoles
         public static async Task loadReadme() {
             if (ReadmePage == "") {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://raw.githubusercontent.com/TheOtherRolesAU/TheOtherRoles/main/README.md");
+                HttpResponseMessage response = await client.GetAsync("https://raw.githubusercontent.com/FangkuaiYa0116/TheOtherRoles/main/README.md");
                 response.EnsureSuccessStatusCode();
                 string httpres = await response.Content.ReadAsStringAsync();
                 ReadmePage = httpres;

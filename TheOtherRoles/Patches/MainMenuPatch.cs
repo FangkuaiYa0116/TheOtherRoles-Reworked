@@ -123,7 +123,7 @@ TheEpicRoles - Idea for the first kill shield (partly) and the (old) tabbed opti
 ugackMiner53 - Idea and core code for the Prop Hunt game mode
 Role Draft Music: [https://www.youtube.com/watch?v=9STiQ8cCIo0]Unreal Superhero 3 by Kenët & Rez[]
 
-License: TheOtherRoles is licensed under the [https://github.com/TheOtherRolesAU/TheOtherRoles?tab=GPL-3.0-1-ov-file#readme]GPLv3[]
+License: TheOtherRoles is licensed under the [https://github.com/FangkuaiYa0116/TheOtherRoles?tab=GPL-3.0-1-ov-file#readme]GPLv3[]
 </size>";
                 creditsString += "</align>";
 

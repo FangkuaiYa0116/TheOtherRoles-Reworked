@@ -1,25 +1,25 @@
 ﻿global using Il2CppInterop.Runtime;
 global using Il2CppInterop.Runtime.Attributes;
+global using Il2CppInterop.Runtime.Injection;
 global using Il2CppInterop.Runtime.InteropTypes;
 global using Il2CppInterop.Runtime.InteropTypes.Arrays;
-global using Il2CppInterop.Runtime.Injection;
-
+using AmongUs.Data;
+using AmongUs.Data.Player;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Hazel;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using UnityEngine;
-using TheOtherRoles.Modules;
-using TheOtherRoles.Utilities;
 using Il2CppSystem.Security.Cryptography;
 using Il2CppSystem.Text;
 using Reactor.Networking.Attributes;
-using AmongUs.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TheOtherRoles.Modules;
 using TheOtherRoles.Modules.CustomHats;
+using TheOtherRoles.Utilities;
+using UnityEngine;
 using static TheOtherRoles.Modules.ModUpdater;
 
 namespace TheOtherRoles
@@ -32,7 +32,7 @@ namespace TheOtherRoles
     public class TheOtherRolesPlugin : BasePlugin
     {
         public const string Id = "me.eisbison.theotherroles";
-        public const string VersionString = "4.8.0";
+        public const string VersionString = "4.8.1";
         public static uint betaDays = 0;  // amount of days for the build to be usable (0 for infinite!)
 
         public static Version Version = Version.Parse(VersionString);
@@ -115,7 +115,7 @@ namespace TheOtherRoles
             defaultRegions = ServerManager.DefaultRegions;
             // Removes vanilla Servers
             ServerManager.DefaultRegions = new Il2CppReferenceArray<IRegionInfo>(new IRegionInfo[0]);
-            UpdateRegions();
+            // UpdateRegions();
 
             // Reactor Credits (future use?)
             // Reactor.Utilities.ReactorCredits.Register("TheOtherRoles", VersionString, betaDays > 0, location => location == Reactor.Utilities.ReactorCredits.Location.PingTracker);
@@ -139,13 +139,13 @@ namespace TheOtherRoles
             MainMenuPatch.addSceneChangeCallbacks();
             _ = RoleInfo.loadReadme();
             AddToKillDistanceSetting.addKillDistance();
-            TheOtherRolesPlugin.Logger.LogInfo("Loading TOR completed!");
+            TheOtherRolesPlugin.Logger.LogInfo("Loading completed!");
         }
     }
 
     // Deactivate bans, since I always leave my local testing game and ban myself
-    [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
-    public static class AmBannedPatch
+    [HarmonyPatch(typeof(PlayerBanData), nameof(PlayerBanData.IsBanned), MethodType.Getter)]
+    public static class IsBannedPatch
     {
         public static void Postfix(out bool __result)
         {
