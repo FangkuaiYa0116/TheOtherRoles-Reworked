@@ -1,5 +1,5 @@
 ![eisbison banner](./Images/TOR_logo.png)
-<p align="center"><a href="https://github.com/Eisbison/TheOtherRoles/releases/"><img src="https://badgen.net/github/release/eisbison/theotherroles"></a></p>
+<p align="center"><a href="https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/"><img src="https://badgen.net/github/release/fangkuaiya0116/theotherroles-reworked"></a></p>
 
 
 This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.</p>
@@ -10,9 +10,10 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 ![eisbison infographic](./Images/TOR_Roles.png)
 
 
-# The Other Roles
+# The Other Roles - Reworkd
 
 The **The Other Roles** is a mod for [Among Us](https://store.steampowered.com/app/945360/Among_Us) which adds many new roles, new [Settings](#settings) and new [Custom Hats](#custom-hats) to the game.
+**Based on [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles/)**
 Even more roles are coming soon. :)
 
 | Impostor | Crewmate | Neutral | Modifier | Gamemode |
@@ -42,9 +43,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
-| 2024.11.26| v4.8.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.8.0/TheOtherRoles.zip)
-| 2024.11.26| v4.7.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.7.0/TheOtherRoles.zip)
-| 2024.6.18| v4.6.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.6.0/TheOtherRoles.zip)
+| 16.0.5| v4.8.1| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.8.1/TheOtherRoles-Reworked.zip)
 
 
 <details>
@@ -52,6 +51,9 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
   
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.11.26| v4.8.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.8.0/TheOtherRoles.zip)
+| 2024.11.26| v4.7.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.7.0/TheOtherRoles.zip)
+| 2024.6.18| v4.6.0| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.6.0/TheOtherRoles.zip)
 | 2024.3.5s| v4.5.3| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.5.3/TheOtherRoles.zip)
 | 2024.3.5s| v4.5.2| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.5.2/TheOtherRoles.zip)
 | 2023.11.28s| v4.5.1| [Download](https://github.com/TheOtherRolesAU/TheOtherRoles/releases/download/v4.5.1/TheOtherRoles.zip)
@@ -137,6 +139,11 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 <details>
   <summary>Click to show the Changelog</summary>
   
+**Version 4.8.1**
+- Updated to Among Us version 16.0.5(2025.5.20) (Vanilla Updates)
+- Delete Custom Server Ip and Port screen
+- Comprehensive rework is about to commence
+
 **Version 4.8.0**
 - Added an optional Role Draft mode, where players can select their role out of some roles that are shown to them.
 - Added a new option to allow the medic to shift the medic shield as well - no more invincible medics.
