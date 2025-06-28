@@ -1,16 +1,12 @@
-﻿using Innersloth.DebugTool;
-using LibCpp2IL.Elf;
-using Reactor.Utilities.Extensions;
-using System;
+﻿using Reactor.Utilities.Extensions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheOtherRoles.Utilities;
+using TheOtherRoles.Roles.Impostor;
 using UnityEngine;
 
-namespace TheOtherRoles.Objects {
-    public class Silhouette {
+namespace TheOtherRoles.Objects
+{
+    public class Silhouette
+    {
         public GameObject gameObject;
         public float timeRemaining;
         public bool permanent = false;
@@ -21,14 +17,17 @@ namespace TheOtherRoles.Objects {
 
 
         private static Sprite SilhouetteSprite;
-        public static Sprite getSilhouetteSprite() {
+        public static Sprite getSilhouetteSprite()
+        {
             if (SilhouetteSprite) return SilhouetteSprite;
             SilhouetteSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Silhouette.png", 225f);
             return SilhouetteSprite;
         }
 
-        public Silhouette(Vector3 p, float duration = 1f, bool visibleForEveryOne = true) {
-            if (duration <= 0f) {
+        public Silhouette(Vector3 p, float duration = 1f, bool visibleForEveryOne = true)
+        {
+            if (duration <= 0f)
+            {
                 permanent = true;
             }
             this.visibleForEveryOne = visibleForEveryOne;
@@ -52,24 +51,29 @@ namespace TheOtherRoles.Objects {
             silhouettes.Add(this);
         }
 
-        public static void clearSilhouettes() {
+        public static void clearSilhouettes()
+        {
             foreach (var sil in silhouettes)
                 sil.gameObject.Destroy();
             silhouettes = new();
         }
 
-        public static void UpdateAll() {
-            foreach (Silhouette current in new List<Silhouette>(silhouettes)) {
+        public static void UpdateAll()
+        {
+            foreach (Silhouette current in new List<Silhouette>(silhouettes))
+            {
                 current.timeRemaining -= Time.fixedDeltaTime;
                 bool visible = current.visibleForEveryOne || PlayerControl.LocalPlayer == Yoyo.yoyo || PlayerControl.LocalPlayer.Data.IsDead;
                 current.gameObject.SetActive(visible);
 
-                if (visible && current.timeRemaining > 0 && current.timeRemaining < 0.5) {
+                if (visible && current.timeRemaining > 0 && current.timeRemaining < 0.5)
+                {
                     var alphaRatio = current.timeRemaining / 0.5f;
                     current.renderer.color = current.renderer.color.SetAlpha(Yoyo.SilhouetteVisibility * alphaRatio);
                 }
 
-                if (current.timeRemaining < 0 && !current.permanent) {
+                if (current.timeRemaining < 0 && !current.permanent)
+                {
                     current.gameObject.SetActive(false);
                     UnityEngine.Object.Destroy(current.gameObject);
                     silhouettes.Remove(current);

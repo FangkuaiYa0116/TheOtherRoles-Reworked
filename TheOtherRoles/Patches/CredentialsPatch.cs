@@ -4,60 +4,71 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TheOtherRoles;
 using TheOtherRoles.CustomGameModes;
+using TheOtherRoles.Modules;
 using TheOtherRoles.Utilities;
 using TMPro;
 using UnityEngine;
 
-namespace TheOtherRoles.Patches {
+namespace TheOtherRoles.Patches
+{
     [HarmonyPatch]
-    public static class CredentialsPatch {
-        public static string fullCredentialsVersion = 
-$@"<size=130%><color=#ff351f>TheOtherRoles-Reworked</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays>0 ? "-BETA": "")}";
-public static string fullCredentials =
-$@"<size=60%>Modded by <color=#00FFFF>FangkuaiYa</color>
+    public static class CredentialsPatch
+    {
+        public static string fullCredentialsVersion =
+$@"<size=130%><color=#ff351f>TheOtherRoles-Reworked</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays > 0 ? "-BETA" : "")}";
+        public static string fullCredentials =
+        $@"<size=60%>Modded by <color=#00FFFF>FangkuaiYa</color>
 Based on <color=#FCCE03FF>TheOtherRoles</color></size>";
 
-    public static string mainMenuCredentials = 
-$@"Modded by <color=#00FFFF>FangkuaiYa</color>
+        public static string mainMenuCredentials =
+    $@"Modded by <color=#00FFFF>FangkuaiYa</color>
 Based on <color=#FCCE03FF>TheOtherRoles</color>";
 
-        public static string contributorsCredentials = "";
-// $@"<size=60%><color=#FCCE03FF>Special thanks to Smeggy</color></size>";
+        public static string contributorsCredentials =
+         $@"<size=60%><color=#FCCE03FF>Special thanks to Imp11 & ELinmei</color></size>";
 
         [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
         internal static class PingTrackerPatch
         {
+            static void Postfix(PingTracker __instance)
+            {
+                LobbyJoinBind.fontAssetPingTracker = __instance.text.font;
 
-            static void Postfix(PingTracker __instance){
-                __instance.text.alignment = TextAlignmentOptions.Top;
                 var position = __instance.GetComponent<AspectPosition>();
-                position.Alignment = AspectPosition.EdgeAlignments.Top;
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) {
+                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
+                {
                     string gameModeText = $"";
-                    if (HideNSeek.isHideNSeekGM) gameModeText = $"Hide 'N Seek";
-                    else if (HandleGuesser.isGuesserGm) gameModeText = $"Guesser";
-                    else if (PropHunt.isPropHuntGM) gameModeText = "Prop Hunt";
-                    if (gameModeText != "") gameModeText = Helpers.cs(Color.yellow, gameModeText) + (MeetingHud.Instance ? " " : "\n");
+                    if (HideNSeek.isHideNSeekGM) gameModeText = ModTranslation.getString("pingTrackerGameModeTextHNS");
+                    else if (HandleGuesser.isGuesserGm) gameModeText = ModTranslation.getString("pingTrackerGameModeTextGS");
+                    else if (PropHunt.isPropHuntGM) gameModeText = ModTranslation.getString("pingTrackerGameModeTextPH");
+                    if (gameModeText != "") gameModeText = Helpers.ColorString(Color.yellow, gameModeText) + (MeetingHud.Instance ? " " : "\n");
                     __instance.text.text = $"<size=130%><color=#ff351f>TheOtherRoles-Reworked</color></size> v{TheOtherRolesPlugin.Version.ToString() + (TheOtherRolesPlugin.betaDays > 0 ? "-BETA" : "")}\n{gameModeText}" + __instance.text.text;
-                    position.DistanceFromEdge = MeetingHud.Instance ? new Vector3(1.25f, 0.15f, 0) : new Vector3(1.55f, 0.15f, 0);
-                } else {
+                    __instance.text.alignment = TextAlignmentOptions.Top;
+                    position.Alignment = AspectPosition.EdgeAlignments.Top;
+                    position.DistanceFromEdge = new Vector3(1.5f, 0.11f, 0);
+                }
+                else
+                {
                     string gameModeText = $"";
-                    if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek) gameModeText = $"Hide 'N Seek";
-                    else if (TORMapOptions.gameMode == CustomGamemodes.Guesser) gameModeText = $"Guesser";
-                    else if (TORMapOptions.gameMode == CustomGamemodes.PropHunt) gameModeText = $"Prop Hunt";
-                    if (gameModeText != "") gameModeText = Helpers.cs(Color.yellow, gameModeText);
+                    if (TORMapOptions.gameMode == CustomGamemodes.HideNSeek) gameModeText = ModTranslation.getString("pingTrackerGameModeTextHNS");
+                    else if (TORMapOptions.gameMode == CustomGamemodes.Guesser) gameModeText = ModTranslation.getString("pingTrackerGameModeTextGS");
+                    else if (TORMapOptions.gameMode == CustomGamemodes.PropHunt) gameModeText = ModTranslation.getString("pingTrackerGameModeTextPH");
+                    if (gameModeText != "") gameModeText = Helpers.ColorString(Color.yellow, gameModeText);
 
                     __instance.text.text = $"{fullCredentialsVersion}\n{fullCredentials}\n {__instance.text.text}";
-                    position.DistanceFromEdge = new Vector3( 0f, 0.1f, 0);
+                    position.Alignment = AspectPosition.EdgeAlignments.LeftTop;
+                    __instance.text.alignment = TextAlignmentOptions.TopLeft;
+                    position.DistanceFromEdge = new Vector3(0.5f, 0.11f);
 
-                    try {
+                    try
+                    {
                         var GameModeText = GameObject.Find("GameModeText")?.GetComponent<TextMeshPro>();
-                        GameModeText.text = gameModeText == "" ? (GameOptionsManager.Instance.currentGameOptions.GameMode == GameModes.HideNSeek ? "Van. HideNSeek" : "Classic" ): gameModeText;
+                        GameModeText.text = gameModeText == "" ? (GameOptionsManager.Instance.currentGameOptions.GameMode == GameModes.HideNSeek ? "Van. HideNSeek" : "Classic") : gameModeText;
                         var ModeLabel = GameObject.Find("ModeLabel")?.GetComponentInChildren<TextMeshPro>();
-                        ModeLabel.text = "Game Mode";
-                    } catch { }
+                        ModeLabel.text = ModTranslation.getString("pingTrackerGameModeText");
+                    }
+                    catch { }
                 }
                 position.AdjustPosition();
             }
@@ -75,7 +86,8 @@ Based on <color=#FCCE03FF>TheOtherRoles</color>";
             public static GameObject motdObject;
             public static TextMeshPro motdText;
 
-            static void Postfix(PingTracker __instance) {
+            static void Postfix(PingTracker __instance)
+            {
                 var torLogo = new GameObject("bannerLogo_TOR");
                 torLogo.transform.SetParent(GameObject.Find("RightPanel").transform, false);
                 torLogo.transform.localPosition = new Vector3(-0.4f, 1f, 5f);
@@ -114,21 +126,27 @@ Based on <color=#FCCE03FF>TheOtherRoles</color>";
                 motdText.SetOutlineThickness(0.025f);
             }
 
-            public static void loadSprites() {
+            public static void loadSprites()
+            {
                 if (bannerSprite == null) bannerSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner.png", 300f);
                 if (banner2Sprite == null) banner2Sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Banner2.png", 300f);
                 if (horseBannerSprite == null) horseBannerSprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.bannerTheHorseRoles.png", 300f);
             }
 
-            public static void updateSprite() {
+            public static void updateSprite()
+            {
                 loadSprites();
-                if (renderer != null) {
+                if (renderer != null)
+                {
                     float fadeDuration = 1f;
-                    instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) => {
+                    instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) =>
+                    {
                         renderer.color = new Color(1, 1, 1, 1 - p);
-                        if (p == 1) {
+                        if (p == 1)
+                        {
                             renderer.sprite = TORMapOptions.enableHorseMode ? horseBannerSprite : bannerSprite;
-                            instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) => {
+                            instance.StartCoroutine(Effects.Lerp(fadeDuration, new Action<float>((p) =>
+                            {
                                 renderer.color = new Color(1, 1, 1, p);
                             })));
                         }
@@ -138,14 +156,17 @@ Based on <color=#FCCE03FF>TheOtherRoles</color>";
         }
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.LateUpdate))]
-        public static class MOTD {
+        public static class MOTD
+        {
             public static List<string> motds = new List<string>();
             private static float timer = 0f;
             private static float maxTimer = 5f;
             private static int currentIndex = 0;
 
-            public static void Postfix() {
-                if (motds.Count == 0) {
+            public static void Postfix()
+            {
+                if (motds.Count == 0)
+                {
                     timer = maxTimer;
                     return;
                 }
@@ -158,21 +179,24 @@ Based on <color=#FCCE03FF>TheOtherRoles</color>";
                 if (motds.Count == 1) alpha = 1;
                 LogoPatch.motdText.color = LogoPatch.motdText.color.SetAlpha(alpha);
                 timer -= Time.deltaTime;
-                if (timer <= 0) {
+                if (timer <= 0)
+                {
                     timer = maxTimer;
                     currentIndex = (currentIndex + 1) % motds.Count;
                 }
             }
 
-            public static async Task loadMOTDs() {
+            public static async Task loadMOTDs()
+            {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://raw.githubusercontent.com/FangkuaiYa0116/MOTD/main/motd.txt");
+                HttpResponseMessage response = await client.GetAsync(Helpers.isChinese() ? "https://rawgithub.fangkuai.fun/FangkuaiYa0116/MOTD/main/motd.txt" : "https://raw.githubusercontent.com/FangkuaiYa0116/MOTD/main/motd.txt");
                 response.EnsureSuccessStatusCode();
                 string motds = await response.Content.ReadAsStringAsync();
-                foreach(string line in motds.Split("\n", StringSplitOptions.RemoveEmptyEntries)) {
-                        MOTD.motds.Add(line);
+                foreach (string line in motds.Split("\n", StringSplitOptions.RemoveEmptyEntries))
+                {
+                    MOTD.motds.Add(line);
                 }
             }
-        }        
+        }
     }
 }

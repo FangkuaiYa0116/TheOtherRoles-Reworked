@@ -1,18 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
+﻿using Reactor.Utilities.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Reflection;
 using UnityEngine;
-using System.Linq;
-using Reactor.Utilities.Extensions;
 
 namespace TheOtherRoles
 {
     // Class to preload all audio/sound effects that are contained in the embedded resources.
     // The effects are made available through the soundEffects Dict / the get and the play methods.
     public static class SoundEffectsManager
-        
+
     {
         private static Dictionary<string, AudioClip> soundEffects = new();
         //private static List<AudioSource> currentSources = new();
@@ -34,7 +31,8 @@ namespace TheOtherRoles
 
             var resourceBundle = assembly.GetManifestResourceStream("TheOtherRoles.Resources.SoundEffects.toraudio");
             var assetBundle = AssetBundle.LoadFromMemory(resourceBundle.ReadFully());
-            foreach (var f in assetBundle.GetAllAssetNames()) {
+            foreach (var f in assetBundle.GetAllAssetNames())
+            {
                 soundEffects.Add(f, assetBundle.LoadAsset<AudioClip>(f).DontUnload());
             }
             assetBundle.Unload(false);
@@ -51,12 +49,13 @@ namespace TheOtherRoles
         }
 
 
-        public static AudioSource play(string path, float volume=0.8f, bool loop = false, bool musicChannel=false)
+        public static AudioSource play(string path, float volume = 0.8f, bool loop = false, bool musicChannel = false)
         {
             if (!TORMapOptions.enableSoundEffects) return null;
             AudioClip clipToPlay = get(path);
             stop(path);
-            if (Constants.ShouldPlaySfx() && clipToPlay != null) {
+            if (Constants.ShouldPlaySfx() && clipToPlay != null)
+            {
                 AudioSource source = SoundManager.Instance.PlaySound(clipToPlay, false, volume, audioMixer: musicChannel ? SoundManager.Instance.MusicChannel : null);
                 //currentSources.Add(source);
                 source.loop = loop;
@@ -64,30 +63,37 @@ namespace TheOtherRoles
             }
             return null;
         }
-        public static void playAtPosition(string path, Vector2 position, float maxDuration = 15f, float range = 5f, bool loop = false) {
+        public static void playAtPosition(string path, Vector2 position, float maxDuration = 15f, float range = 5f, bool loop = false)
+        {
             if (!TORMapOptions.enableSoundEffects || !Constants.ShouldPlaySfx()) return;
             AudioClip clipToPlay = get(path);
             TheOtherRolesPlugin.Logger.LogMessage("play at  position");
-            if (clipToPlay == null) {
+            if (clipToPlay == null)
+            {
                 TheOtherRolesPlugin.Logger.LogMessage("clip is null");
                 return;
             }
 
             AudioSource source = SoundManager.Instance.PlaySound(clipToPlay, false, 1f);
-            if (source == null) {
+            if (source == null)
+            {
                 TheOtherRolesPlugin.Logger.LogMessage("source is null");
                 return;
             }
             //currentSources.Add(source);
             source.loop = loop;
-            HudManager.Instance.StartCoroutine(Effects.Lerp(maxDuration, new Action<float>((p) => {
-                if (source != null) {
-                    if (p == 1 && source.isPlaying) {
+            HudManager.Instance.StartCoroutine(Effects.Lerp(maxDuration, new Action<float>((p) =>
+            {
+                if (source != null)
+                {
+                    if (p == 1 && source.isPlaying)
+                    {
                         source.Stop();
-                        try {
+                        try
+                        {
                             //currentSources.Remove(source);
                             source.Destroy();
-                        } 
+                        }
                         catch { }
                     }
                     float distance, volume;
@@ -102,20 +108,26 @@ namespace TheOtherRoles
             TheOtherRolesPlugin.Logger.LogMessage("end play at position");
         }
 
-        public static void stop(string path) {
+        public static void stop(string path)
+        {
             var soundToStop = get(path);
-            if (soundToStop != null) {
-                try {
+            if (soundToStop != null)
+            {
+                try
+                {
                     SoundManager.Instance?.StopSound(soundToStop);
                 }
                 catch (Exception e) { TheOtherRolesPlugin.Logger.LogWarning($"Exception in stop sound: {e}"); }
-            } 
+            }
         }
 
-        public static void stopAll() {
+        public static void stopAll()
+        {
             if (soundEffects == null) return;
-            try {
-                foreach (var path in soundEffects.Keys) {
+            try
+            {
+                foreach (var path in soundEffects.Keys)
+                {
                     stop(path);
                 }
             }

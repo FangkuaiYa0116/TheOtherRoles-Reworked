@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TheOtherRoles{
-    static class TORMapOptions {
+namespace TheOtherRoles
+{
+    static class TORMapOptions
+    {
         // Set values
         public static int maxNumberOfMeetings = 10;
         public static bool blockSkippingInEmergencyMeetings = false;
@@ -18,8 +20,9 @@ namespace TheOtherRoles{
         public static bool enableSoundEffects = true;
         public static bool enableHorseMode = false;
         public static bool shieldFirstKill = false;
-        public static bool ShowVentsOnMap = true;
-        public static bool ShowChatNotifications = true;
+        public static bool showVentsOnMap = true;
+        public static bool showChatNotifications = true;
+        public static bool enableDarkMode = false;
         public static CustomGamemodes gameMode = CustomGamemodes.Classic;
 
         // Updating values
@@ -30,7 +33,8 @@ namespace TheOtherRoles{
         public static string firstKillName;
         public static PlayerControl firstKillPlayer;
 
-        public static void clearAndReloadMapOptions() {
+        public static void clearAndReloadMapOptions()
+        {
             meetingsCount = 0;
             camerasToAdd = new List<SurvCamera>();
             ventsToSeal = new List<Vent>();
@@ -45,7 +49,8 @@ namespace TheOtherRoles{
             firstKillPlayer = null;
         }
 
-        public static void reloadPluginOptions() {
+        public static void reloadPluginOptions()
+        {
             ghostsSeeRoles = TheOtherRolesPlugin.GhostsSeeRoles.Value;
             ghostsSeeModifier = TheOtherRolesPlugin.GhostsSeeModifier.Value;
             ghostsSeeInformation = TheOtherRolesPlugin.GhostsSeeInformation.Value;
@@ -54,8 +59,8 @@ namespace TheOtherRoles{
             showLighterDarker = TheOtherRolesPlugin.ShowLighterDarker.Value;
             enableSoundEffects = TheOtherRolesPlugin.EnableSoundEffects.Value;
             enableHorseMode = TheOtherRolesPlugin.EnableHorseMode.Value;
-            ShowVentsOnMap = TheOtherRolesPlugin.ShowVentsOnMap.Value;
-            ShowChatNotifications = TheOtherRolesPlugin.ShowChatNotifications.Value;
+            showVentsOnMap = TheOtherRolesPlugin.ShowVentsOnMap.Value;
+            showChatNotifications = TheOtherRolesPlugin.ShowChatNotifications.Value;
 
             //Patches.ShouldAlwaysHorseAround.isHorseMode = TheOtherRolesPlugin.EnableHorseMode.Value;
         }

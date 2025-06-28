@@ -1,102 +1,104 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AmongUs.Data;
+using Assets.InnerNet;
 using HarmonyLib;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.UI.Button;
 using Object = UnityEngine.Object;
-using TheOtherRoles.Patches;
-using UnityEngine.SceneManagement;
-using TheOtherRoles.Utilities;
-using AmongUs.Data;
-using Assets.InnerNet;
-using System.Linq;
 
-namespace TheOtherRoles.Modules {
+namespace TheOtherRoles.Modules
+{
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-    public class MainMenuPatch {
-        private static bool horseButtonState = TORMapOptions.enableHorseMode;
-        //private static Sprite horseModeOffSprite = null;
-        //private static Sprite horseModeOnSprite = null;
+    public class MainMenuPatch
+    {
         private static AnnouncementPopUp popUp;
 
-        private static void Prefix(MainMenuManager __instance) {
-
-            // Force Reload of SoundEffectHolder
+        private static void Prefix(MainMenuManager __instance)
+        {
             SoundEffectsManager.Load();
 
-            var template = GameObject.Find("ExitGameButton");
-            var template2 = GameObject.Find("CreditsButton");
-            if (template == null || template2 == null) return;
-            template.transform.localScale = new Vector3(0.42f, 0.84f, 0.84f);
-            template.GetComponent<AspectPosition>().anchorPoint = new Vector2(0.625f, 0.5f);
-            template.transform.FindChild("FontPlacer").transform.localScale = new Vector3(1.8f, 0.9f, 0.9f);
-            template.transform.FindChild("FontPlacer").transform.localPosition = new Vector3(-1.1f, 0f, 0f);
+            GameObject NewsB = GameObject.Find("NewsButton");
+            GameObject AccountB = GameObject.Find("AcountButton");
+            GameObject SettingsB = GameObject.Find("SettingsButton");
+            List<GameObject> objects = new() { NewsB, AccountB, SettingsB };
+            foreach (GameObject obj in objects)
+            {
+                obj.transform.localScale = new Vector3(0.41f, 0.84f, 1);
+                var pos = obj.transform.localPosition;
+                pos.x = -0.87f;
+                obj.transform.localPosition = pos;
 
-            template2.transform.localScale = new Vector3(0.42f, 0.84f, 0.84f);
-            template2.GetComponent<AspectPosition>().anchorPoint = new Vector2(0.378f, 0.5f);
-            template2.transform.FindChild("FontPlacer").transform.localScale = new Vector3(1.8f, 0.9f, 0.9f);
-            template2.transform.FindChild("FontPlacer").transform.localPosition = new Vector3(-1.1f, 0f, 0f);
+                var FontPlacer = obj.transform.FindChild("FontPlacer").gameObject;
+                FontPlacer.transform.localScale = new Vector3(2, 1, 1);
+                FontPlacer.transform.localPosition = new Vector3(-1.6159f, -0.0818f, 0);
+
+                var Icon = obj.transform.FindChild("Inactive").FindChild("Icon").gameObject;
+                Icon.transform.localScale += new Vector3(0.4f, 0, 0);
+
+                var Icon2 = obj.transform.FindChild("Highlight").FindChild("Icon").gameObject;
+                Icon2.transform.localScale += new Vector3(0.4f, 0, 0);
+            }
 
 
 
-            var buttonDiscord = UnityEngine.Object.Instantiate(template, template.transform.parent);
-            buttonDiscord.transform.localScale = new Vector3(0.42f, 0.84f, 0.84f);
-            buttonDiscord.GetComponent<AspectPosition>().anchorPoint = new Vector2(0.542f, 0.5f);
+            GameObject buttonDiscord = Object.Instantiate(AccountB, AccountB.transform.parent);
+            buttonDiscord.name = "DiscordButton";
+            buttonDiscord.transform.localPosition = new Vector3(0.87f, -0.387f, 0);
+            buttonDiscord.transform.FindChild("Inactive").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.discord.png", 240f);
+            buttonDiscord.transform.FindChild("Highlight").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.discord.png", 240f);
 
-            var textDiscord = buttonDiscord.transform.GetComponentInChildren<TMPro.TMP_Text>();
-            __instance.StartCoroutine(Effects.Lerp(0.5f, new System.Action<float>((p) => {
-                textDiscord.SetText("TOR Discord");
+            TMPro.TMP_Text textDiscord = buttonDiscord.transform.GetComponentInChildren<TMPro.TMP_Text>();
+            __instance.StartCoroutine(Effects.Lerp(0.5f, new Action<float>((p) =>
+            {
+                textDiscord.SetText("Mod Discord");
             })));
             PassiveButton passiveButtonDiscord = buttonDiscord.GetComponent<PassiveButton>();
-            
-            passiveButtonDiscord.OnClick = new Button.ButtonClickedEvent();
-            passiveButtonDiscord.OnClick.AddListener((System.Action)(() => Application.OpenURL("https://discord.gg/77RkMJHWsM")));
+            passiveButtonDiscord.OnClick = new ButtonClickedEvent();
+            passiveButtonDiscord.OnClick.AddListener((Action)(() => Application.OpenURL("https://discord.gg/TUceswKfRg")));
+
+            GameObject creditsButton = Object.Instantiate(AccountB, AccountB.transform.parent);
+            creditsButton.name = "CreditsButton";
+            creditsButton.transform.localPosition = new Vector3(0.87f, -0.912f, 0);
+            creditsButton.transform.FindChild("Inactive").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.CreditsButton.png", 200f);
+            creditsButton.transform.FindChild("Highlight").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.CreditsButton.png", 200f);
 
 
-            
-            // TOR credits button
-            if (template == null) return;
-            var creditsButton = Object.Instantiate(template, template.transform.parent);
-
-            creditsButton.transform.localScale = new Vector3(0.42f, 0.84f, 0.84f);
-            creditsButton.GetComponent<AspectPosition>().anchorPoint = new Vector2(0.462f, 0.5f);
-
-            var textCreditsButton = creditsButton.transform.GetComponentInChildren<TMPro.TMP_Text>();
-            __instance.StartCoroutine(Effects.Lerp(0.5f, new System.Action<float>((p) => {
-                textCreditsButton.SetText("TOR Credits");
+            TMPro.TMP_Text textCreditsButton = creditsButton.transform.GetComponentInChildren<TMPro.TMP_Text>();
+            __instance.StartCoroutine(Effects.Lerp(0.5f, new Action<float>((p) =>
+            {
+                textCreditsButton.SetText("Mod Credits");
             })));
+
             PassiveButton passiveCreditsButton = creditsButton.GetComponent<PassiveButton>();
-
-            passiveCreditsButton.OnClick = new Button.ButtonClickedEvent();
-
-            passiveCreditsButton.OnClick.AddListener((System.Action)delegate {
+            passiveCreditsButton.OnClick = new ButtonClickedEvent();
+            passiveCreditsButton.OnClick.AddListener((Action)delegate
+            {
                 // do stuff
                 if (popUp != null) Object.Destroy(popUp);
-                var popUpTemplate = Object.FindObjectOfType<AnnouncementPopUp>(true);
-                if (popUpTemplate == null) {
-                    TheOtherRolesPlugin.Logger.LogError("couldnt show credits, popUp is null");
+                AnnouncementPopUp popUpTemplate = Object.FindObjectOfType<AnnouncementPopUp>(true);
+                if (popUpTemplate == null)
+                {
                     return;
                 }
                 popUp = Object.Instantiate(popUpTemplate);
-
                 popUp.gameObject.SetActive(true);
                 string creditsString = @$"<align=""center""><b>Team:</b>
-Mallöris    K3ndo    Bavari    Gendelo
+Xtremw Wave
 
-<b>Former Team Members:</b>
-Eisbison (GOAT)    Thunderstorm584    EndOfFile
+<b>TORR Develop Members:</b>
+FangkuaiYa   ELinmei   Duye
 
 <b>Additional Devs:</b>
-EnoPM    twix    NesTT
+Imp11
 
 <b>Github Contributors:</b>
-Alex2911    amsyarasyiq    MaximeGillot
-Psynomit    probablyadnf    JustASysAdmin
+None
 
-<b>[https://discord.gg/77RkMJHWsM]Discord[] Moderators:</b>
-Draco Cordraconis    Streamblox (formerly)
-Thanks to all our discord helpers!
+<b>[https://discord.gg/TUceswKfRg]Discord[] Moderators:</b>
+None
 
 Thanks to miniduikboot & GD for hosting modded servers (and so much more)
 
@@ -120,6 +122,8 @@ Ottomated - Idea for the Morphling, Snitch and Camouflager role came from Ottoma
 Crowded-Mod - Our implementation for 10+ player lobbies was inspired by the one from the Crowded Mod Team
 Goose-Goose-Duck - Idea for the Vulture role came from Slushiegoose
 TheEpicRoles - Idea for the first kill shield (partly) and the (old) tabbed option menu (fully + some code), by LaicosVK DasMonschta Nova
+StellarRole - Main menu code and custom option some code also some art resources
+四个憨批汉化组 - Some button resources
 ugackMiner53 - Idea and core code for the Prop Hunt game mode
 Role Draft Music: [https://www.youtube.com/watch?v=9STiQ8cCIo0]Unreal Superhero 3 by Kenët & Rez[]
 
@@ -127,35 +131,55 @@ License: TheOtherRoles is licensed under the [https://github.com/FangkuaiYa0116/
 </size>";
                 creditsString += "</align>";
 
-                Assets.InnerNet.Announcement creditsAnnouncement = new() {
-                    Id = "torCredits",
+                Announcement creditsAnnouncement = new()
+                {
+                    Id = "ModCredits",
                     Language = 0,
-                    Number = 500,
-                    Title = "The Other Roles\nCredits & Resources",
-                    ShortTitle = "TOR Credits",
-                    SubTitle = "",
+                    Number = 502,
+                    Title = "TheOtherRoles-Reworked\nCredits & Resources",
+                    ShortTitle = "TheOtherRoles-Reworked\nCredits",
+                    SubTitle = "Credits & Resources",
                     PinState = false,
-                    Date = "01.07.2021",
+                    Date = "06.07.2025",
                     Text = creditsString,
                 };
-                __instance.StartCoroutine(Effects.Lerp(0.1f, new Action<float>((p) => {
-                    if (p == 1) {
-                        var backup = DataManager.Player.Announcements.allAnnouncements;
+
+                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) =>
+                {
+                    if (p == 1)
+                    {
+                        Il2CppSystem.Collections.Generic.List<Announcement> backup = DataManager.Player.Announcements.allAnnouncements;
                         DataManager.Player.Announcements.allAnnouncements = new();
                         popUp.Init(false);
                         DataManager.Player.Announcements.SetAnnouncements(new Announcement[] { creditsAnnouncement });
                         popUp.CreateAnnouncementList();
                         popUp.UpdateAnnouncementText(creditsAnnouncement.Number);
-                        popUp.visibleAnnouncements._items[0].PassiveButton.OnClick.RemoveAllListeners();
+                        popUp.visibleAnnouncements[0].PassiveButton.OnClick.RemoveAllListeners();
                         DataManager.Player.Announcements.allAnnouncements = backup;
                     }
                 })));
             });
-            
+
+            GameObject buttonQQ = Object.Instantiate(AccountB, AccountB.transform.parent);
+            buttonQQ.name = "QQButton";
+            buttonQQ.transform.localPosition = new Vector3(0.87f, -1.444f, 0);
+            buttonQQ.transform.FindChild("Inactive").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.QQGroup.png", 240f);
+            buttonQQ.transform.FindChild("Highlight").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.QQGroup.png", 240f);
+
+            TMPro.TMP_Text textRegion = buttonQQ.transform.GetComponentInChildren<TMPro.TMP_Text>();
+            __instance.StartCoroutine(Effects.Lerp(0.5f, new Action<float>((p) =>
+            {
+                textRegion.SetText("QQ Group");
+            })));
+            PassiveButton passiveButtonQQGroup = buttonQQ.GetComponent<PassiveButton>();
+            passiveButtonQQGroup.OnClick = new ButtonClickedEvent();
+            passiveButtonQQGroup.OnClick.AddListener((Action)(() => Application.OpenURL("https://qm.qq.com/q/PYnVTb9IQK")));
         }
 
-        public static void addSceneChangeCallbacks() {
-            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>)((scene, _) => {
+        public static void addSceneChangeCallbacks()
+        {
+            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>)((scene, _) =>
+            {
                 if (!scene.name.Equals("MatchMaking", StringComparison.Ordinal)) return;
                 TORMapOptions.gameMode = CustomGamemodes.Classic;
                 // Add buttons For Guesser Mode, Hide N Seek in this scene.
@@ -168,9 +192,10 @@ License: TheOtherRoles is licensed under the [https://github.com/FangkuaiYa0116/
                 guesserButton.transform.localPosition += new Vector3(0f, -0.5f);
                 var guesserButtonText = guesserButton.GetComponentInChildren<TMPro.TextMeshPro>();
                 var guesserButtonPassiveButton = guesserButton.GetComponentInChildren<PassiveButton>();
-                
+
                 guesserButtonPassiveButton.OnClick = new Button.ButtonClickedEvent();
-                guesserButtonPassiveButton.OnClick.AddListener((System.Action)(() => {
+                guesserButtonPassiveButton.OnClick.AddListener((System.Action)(() =>
+                {
                     TORMapOptions.gameMode = CustomGamemodes.Guesser;
                     template.OnClick();
                 }));
@@ -179,9 +204,10 @@ License: TheOtherRoles is licensed under the [https://github.com/FangkuaiYa0116/
                 HideNSeekButton.transform.localPosition += new Vector3(1.7f, -0.5f);
                 var HideNSeekButtonText = HideNSeekButton.GetComponentInChildren<TMPro.TextMeshPro>();
                 var HideNSeekButtonPassiveButton = HideNSeekButton.GetComponentInChildren<PassiveButton>();
-                
+
                 HideNSeekButtonPassiveButton.OnClick = new Button.ButtonClickedEvent();
-                HideNSeekButtonPassiveButton.OnClick.AddListener((System.Action)(() => {
+                HideNSeekButtonPassiveButton.OnClick.AddListener((System.Action)(() =>
+                {
                     TORMapOptions.gameMode = CustomGamemodes.HideNSeek;
                     template.OnClick();
                 }));
@@ -192,12 +218,14 @@ License: TheOtherRoles is licensed under the [https://github.com/FangkuaiYa0116/
                 var PropHuntButtonPassiveButton = PropHuntButton.GetComponentInChildren<PassiveButton>();
 
                 PropHuntButtonPassiveButton.OnClick = new Button.ButtonClickedEvent();
-                PropHuntButtonPassiveButton.OnClick.AddListener((System.Action)(() => {
+                PropHuntButtonPassiveButton.OnClick.AddListener((System.Action)(() =>
+                {
                     TORMapOptions.gameMode = CustomGamemodes.PropHunt;
                     template.OnClick();
                 }));
 
-                template.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) => {
+                template.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
+                {
                     guesserButtonText.SetText("TOR Guesser");
                     HideNSeekButtonText.SetText("TOR Hide N Seek");
                     PropHuntButtonText.SetText("TOR Prop Hunt");

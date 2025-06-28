@@ -6,7 +6,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 <p align="center">
   To other mod devs: for usage of our code, please read and respect the <a href="#license">license</a></p>
 
-[![Discord](./Images/TOR_server.png)](https://discord.gg/77RkMJHWsM)
+[![Discord](./Images/TOR_server.png)](https://discord.gg/TUceswKfRg)
 ![eisbison infographic](./Images/TOR_Roles.png)
 
 
@@ -43,6 +43,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 16.1.0| v4.9.0| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.9.0/TheOtherRoles-Reworked.zip)
 | 16.0.5| v4.8.1| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.8.1/TheOtherRoles-Reworked.zip)
 
 
@@ -139,6 +140,36 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 <details>
   <summary>Click to show the Changelog</summary>
   
+**Version 4.8.1**
+EN:
+- Updated to Among Us version 16.1.0
+- Updated supprot BepInEx version to 735
+- Add Simplified Chinese translation (@FangkuaiYa & @linmeideli)
+- Use button images without text (四个憨批汉化组 & @FangkuaiYa)
+- Refactor the code for some roles (Thanks to @dabao40 (Imp11))
+- New custom option UI
+- New main menu
+- New Role Draft option "Can Use Chat"
+- New Role Draft option "Role Draft Allows Choosing Roles From Any Team"
+- New Role Draft option "Hide Crewmate Roles"
+- Fix some bugs for Role Draft
+- Add a random role selection button to the Role Draft interface
+- Add Dark Mode
+CN:
+- 更新至 Among Us 16.1.0
+- 更新支持的BepInEx版本到735
+- 添加简体中文翻译（@FangkuaiYa & @linmeideli）
+- 使用无文字的按钮图片（四个憨批汉化组 & @FangkuaiYa）
+- 重做部分职业的代码（感谢 @dabao40 (Imp11)）
+- 新增自定义选项 UI
+- 新增主菜单界面（感谢 StellarRoles Mod）
+- 新增轮抽选角选项 “允许使用聊天”
+- 新增轮抽选角选项 “跨阵营选择职业”
+- 新增轮抽选角选项 “隐藏船员职业”
+- 修复一些轮抽选角的错误
+- 在 Role Draft 界面添加随机选择职业按钮
+- 添加深色模式
+
 **Version 4.8.1**
 - Updated to Among Us version 16.0.5(2025.5.20) (Vanilla Updates)
 - Delete Custom Server Ip and Port screen
@@ -696,7 +727,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 **Version 2.3.0**
 - **New Role:** [Cleaner](#cleaner)
 - Added 12 new [Colors](#colors)
-- We added support for creating [Custom Hats](#custom-hats). New hats are coming with the next version, but you can already create and submit your own hats on [Discord](https://discord.gg/77RkMJHWsM).
+- We added support for creating [Custom Hats](#custom-hats). New hats are coming with the next version, but you can already create and submit your own hats on [Discord](https://discord.gg/TUceswKfRg).
 - Added the option to hide the name of players with an unknown role
 - Added Trickster Box vent animation. Thanks to [Drakoni](https://twitter.com/Drakoni13)
 - You can now change the custom server ip/port right inside the game
@@ -896,7 +927,7 @@ Github Contributors:
 Alex2911    amsyarasyiq    MaximeGillot
 Psynomit    probablyadnf    JustASysAdmin
 
-[Discord](https://discord.gg/77RkMJHWsM]Discord) Moderators:</b>
+[Discord](https://discord.gg/TUceswKfRg]Discord) Moderators:</b>
 Draco Cordraconis    Streamblox (formerly)
 Thanks to all our discord helpers!
 
@@ -1005,7 +1036,7 @@ Here are a few instructions, on how to create a custom hat:
     - The name of the texture needs to follow the pattern `hatname_climb.png`.
 - **Testing:** You can test your hat design by putting all the files in the `\TheOtherHats\Test` subfolder of your mod folder. Then whenever you start a Freeplay game, you and all the dummies will be wearing the new hat. You don't need to restart Among Us if you change the hat files, just exit and reenter the Freeplay mode.
 
-- **Submission:** If you got a hat design, you can submit it on our [Discord server](https://discord.gg/77RkMJHWsM). We'll look at all the hats and add all the good ones to the game.
+- **Submission:** If you got a hat design, you can submit it on our [Discord server](https://discord.gg/TUceswKfRg). We'll look at all the hats and add all the good ones to the game.
 
 # Colors
 Note: Lighter and Darker colors are no longer based on the players color. Instead they are assigned alternatingly, s.t. they are always balanced in a lobby.
@@ -2328,7 +2359,7 @@ TheOtherRolesAU/TheOtherRoles is licensed under the
 Permissions of this strong copyleft license are conditioned on making available **complete source code of licensed works and modifications**, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
 
 # Bugs, suggestions and requests
-If you found any bugs, have an idea for a new role or any other request, join our [Discord server](https://discord.gg/77RkMJHWsM).
+If you found any bugs, have an idea for a new role or any other request, join our [Discord server](https://discord.gg/TUceswKfRg).
 
 # Copyedit
 Thanks for fixing our typos [jacktose](https://github.com/jacktose) ✌️
