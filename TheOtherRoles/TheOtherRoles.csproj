@@ -10,7 +10,6 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <Platforms>AnyCPU</Platforms>
-		<DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <ItemGroup>

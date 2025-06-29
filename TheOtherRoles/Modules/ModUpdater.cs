@@ -91,6 +91,8 @@ public class ModUpdater : MonoBehaviour
         var popup = Instantiate(TwitchManager.Instance.TwitchPopup);
         popup.TextAreaTMP.fontSize *= 0.7f;
         popup.TextAreaTMP.enableAutoSizing = false;
+        popup.name = "Mod Updater Popup";
+        popup.TextAreaTMP.transform.localPosition = new Vector3(0f, 0.28f, -0.5f);
 
         popup.Show();
 
@@ -159,7 +161,7 @@ public class ModUpdater : MonoBehaviour
         if (File.Exists(filePath + ".old")) File.Delete(filePath + "old");
         if (File.Exists(filePath)) File.Move(filePath, filePath + ".old");
 
-        var persistTask = File.WriteAllBytesAsync(filePath, www.downloadHandler.data);
+        var persistTask = File.WriteAllBytesAsync(filePath, Helpers.GetUnstrippedData(www.downloadHandler));
         var hasError = false;
         while (!persistTask.IsCompleted)
         {

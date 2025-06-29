@@ -1,7 +1,3 @@
-using AmongUs.GameOptions;
-using HarmonyLib;
-using Hazel;
-using Reactor.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,6 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AmongUs.GameOptions;
+using HarmonyLib;
+using Hazel;
+using Reactor.Utilities.Extensions;
 using TheOtherRoles.CustomGameModes;
 using TheOtherRoles.Modules;
 using TheOtherRoles.Patches;
@@ -19,6 +19,7 @@ using TheOtherRoles.Roles.Modifier;
 using TheOtherRoles.Roles.Neutral;
 using TheOtherRoles.Utilities;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TheOtherRoles
 {
@@ -728,6 +729,13 @@ namespace TheOtherRoles
             }
 
             return team;
+        }
+        public static byte[] GetUnstrippedData(this DownloadHandler dh)
+        {
+            var nativeData = dh.GetNativeData();
+            if (nativeData.IsCreated)
+                return nativeData.ToArray();
+            return null;
         }
 
         public static bool isNeutral(PlayerControl player)

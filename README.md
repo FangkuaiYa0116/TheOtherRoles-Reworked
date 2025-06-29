@@ -1,3 +1,7 @@
+> [!NOTE]
+> This is a branch mod of the TheOtherRoles mod produced by the TheOtherRolesAU team, aiming to fix some issues existing in TOR.\
+> 这是TheOtherRolesAU团队制作的TheOtherRoles模组的一个分支模组，旨在修复TOR中存在的一些问题.
+
 ![eisbison banner](./Images/TOR_logo.png)
 <p align="center"><a href="https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/"><img src="https://badgen.net/github/release/fangkuaiya0116/theotherroles-reworked"></a></p>
 
@@ -12,8 +16,9 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 # The Other Roles - Reworkd
 
-The **The Other Roles** is a mod for [Among Us](https://store.steampowered.com/app/945360/Among_Us) which adds many new roles, new [Settings](#settings) and new [Custom Hats](#custom-hats) to the game.
+The **The Other Roles - Reworked** is a mod for [Among Us](https://store.steampowered.com/app/945360/Among_Us) which adds many new roles, new [Settings](#settings) and new [Custom Hats](#custom-hats) to the game.
 **Based on [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles/)**
+
 Even more roles are coming soon. :)
 
 | Impostor | Crewmate | Neutral | Modifier | Gamemode |
@@ -43,6 +48,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 16.1.0| v4.9.1| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.9.1/TheOtherRoles-Reworked.zip)
 | 16.1.0| v4.9.0| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.9.0/TheOtherRoles-Reworked.zip)
 | 16.0.5| v4.8.1| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.8.1/TheOtherRoles-Reworked.zip)
 
@@ -139,8 +145,16 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Changelog
 <details>
   <summary>Click to show the Changelog</summary>
-  
-**Version 4.8.1**
+
+**Version 4.9.1** \
+EN:
+- Fix the bug that custom hats cannot download files
+- Fix the bug that the ModUpdater cannot use \
+CN:
+- 修复自定义帽子无法下载文件的错误
+- 修复ModUpdater无法使用的错误
+
+**Version 4.9.0** \
 EN:
 - Updated to Among Us version 16.1.0
 - Updated supprot BepInEx version to 735
@@ -154,7 +168,7 @@ EN:
 - New Role Draft option "Hide Crewmate Roles"
 - Fix some bugs for Role Draft
 - Add a random role selection button to the Role Draft interface
-- Add Dark Mode
+- Add Dark Mode \
 CN:
 - 更新至 Among Us 16.1.0
 - 更新支持的BepInEx版本到735
