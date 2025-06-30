@@ -2,7 +2,7 @@
 > This is a branch mod of the TheOtherRoles mod produced by the TheOtherRolesAU team, aiming to fix some issues existing in TOR.\
 > 这是TheOtherRolesAU团队制作的TheOtherRoles模组的一个分支模组，旨在修复TOR中存在的一些问题.
 
-> [!IMPORTANtT]
+> [!Important]
 > We are seeking translations for the mod. If you are willing to provide unpaid translation for this mod, please go to the Discord channel or raise an issue on GitHub. We will handle it after seeing the message.
 
 ![eisbison banner](./Images/TOR_logo.png)
