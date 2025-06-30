@@ -2,6 +2,9 @@
 > This is a branch mod of the TheOtherRoles mod produced by the TheOtherRolesAU team, aiming to fix some issues existing in TOR.\
 > 这是TheOtherRolesAU团队制作的TheOtherRoles模组的一个分支模组，旨在修复TOR中存在的一些问题.
 
+> [!IMPORTANtT]
+> We are seeking translations for the mod. If you are willing to provide unpaid translation for this mod, please go to the Discord channel or raise an issue on GitHub. We will handle it after seeing the message.
+
 ![eisbison banner](./Images/TOR_logo.png)
 <p align="center"><a href="https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/"><img src="https://badgen.net/github/release/fangkuaiya0116/theotherroles-reworked"></a></p>
 
@@ -48,6 +51,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 16.1.0| v4.9.2| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.9.2/TheOtherRoles-Reworked.zip)
 | 16.1.0| v4.9.1| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.9.1/TheOtherRoles-Reworked.zip)
 | 16.1.0| v4.9.0| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.9.0/TheOtherRoles-Reworked.zip)
 | 16.0.5| v4.8.1| [Download](https://github.com/FangkuaiYa0116/TheOtherRoles-Reworked/releases/download/v4.8.1/TheOtherRoles-Reworked.zip)
@@ -145,6 +149,14 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 # Changelog
 <details>
   <summary>Click to show the Changelog</summary>
+
+**Version 4.9.2** \
+EN:
+- Engineer's New Skill - Door Pass Through (Can pass through closed doors during skill activation)
+- Time Master's New Skill - Time Rewind (Can actively rewind time and revive players based on settings) \
+CN:
+- 工程师新增技能 - 穿门 (发动技能期间可以穿过关闭状态的门)
+- 时间之主新增技能 - 回溯时间 (根据设置可以主动回溯时间也可复活玩家)
 
 **Version 4.9.1** \
 EN:
@@ -1626,6 +1638,7 @@ The Mayor has the option to vote with only one vote instead of two (via a button
 The Engineer (if alive) can fix a certain amount of sabotages per game from anywhere on the map.\
 The Engineer can use vents.\
 If the Engineer is inside a vent, depending on the options the members of the team Jackal/Impostors will see a blue outline around all vents on the map (in order to warn them).\
+The Engineer can set the cooldown time and number of uses for the door-passing skill according to the settings.\
 
 **NOTE:**
 - The kill button of Impostors activates if they stand next to a vent where the Engineer is. They can also kill them there. No other action (e.g. Morphling sample, Shifter shift, ...) can affect players inside vents.
@@ -1637,6 +1650,9 @@ If the Engineer is inside a vent, depending on the options the members of the te
 | Number Of Sabotage Fixes| -
 | Impostors See Vents Highlighted | -
 | Jackal And Sidekick See Vents Highlighted | -
+| Number Of Pass Door Uses | -
+| Pass Door Cooldown | -
+| Pass Door Duration | -
 -----------------------
 
 ## Sheriff
@@ -1732,14 +1748,20 @@ The Time Master won't be affected by the rewind.
 - If the Time Master was bitten and has their shield active before when a meeting is called, they survive but the time won't be rewound.
 - If the Time Master has a Medic shield, they won't rewind.
 - The shield itself ends immediately when triggered. So the Time Master can be attacked again as soon as the rewind ends.
+- The Time Master can use the active time rewind skill and revive players according to the settings.
 
 ### Game Options
 | Name | Description |
 |----------|:-------------:|
 | Time Master Spawn Chance | - |
 | Time Master Cooldown | - |
+| Time Master Can Use Rewind | - |
+| Time Master Rewind Cooldown | - |
+| Tme Master Rewind Can Revive Player | - |
 | Rewind Duration | How much time to rewind |
 | Time Master Shield Duration |
+Time Master Cooldown
+
 -----------------------
 
 ## Medic
