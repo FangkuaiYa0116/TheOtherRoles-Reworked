@@ -25,10 +25,12 @@ internal static class HudManagerStartPatch
     private static bool initialized;
 
     private static CustomButton engineerRepairButton;
+    private static CustomButton engineerOpenDoorButton;
     private static CustomButton janitorCleanButton;
     public static CustomButton sheriffKillButton;
     private static CustomButton deputyHandcuffButton;
     private static CustomButton timeMasterShieldButton;
+    private static CustomButton timeMasterRewindButton; 
     private static CustomButton medicShieldButton;
     private static CustomButton shifterShiftButton;
     private static CustomButton morphlingButton;
@@ -86,6 +88,7 @@ internal static class HudManagerStartPatch
     public static GameObject propSpriteHolder;
     public static SpriteRenderer propSpriteRenderer;
 
+    public static TMP_Text engineerOpenHackerButtonUsesText;
     public static TMP_Text securityGuardButtonScrewsText;
     public static TMP_Text securityGuardChargesText;
     public static TMP_Text deputyButtonHandcuffsText;
@@ -112,10 +115,12 @@ internal static class HudManagerStartPatch
             }
 
         engineerRepairButton.MaxTimer = 0f;
+        engineerOpenDoorButton.MaxTimer = Engineer.doorOpenCooldown;
         janitorCleanButton.MaxTimer = Janitor.cooldown;
         sheriffKillButton.MaxTimer = Sheriff.cooldown;
         deputyHandcuffButton.MaxTimer = Deputy.handcuffCooldown;
         timeMasterShieldButton.MaxTimer = TimeMaster.cooldown;
+        timeMasterRewindButton.MaxTimer = TimeMaster.rewindCooldown;
         medicShieldButton.MaxTimer = 0f;
         shifterShiftButton.MaxTimer = 0f;
         morphlingButton.MaxTimer = Morphling.cooldown;
@@ -167,7 +172,9 @@ internal static class HudManagerStartPatch
         propHuntAdminButton.MaxTimer = PropHunt.adminCooldown;
         propHuntFindButton.MaxTimer = PropHunt.findCooldown;
 
+        engineerOpenDoorButton.EffectDuration = Engineer.doorOpenDuration;
         timeMasterShieldButton.EffectDuration = TimeMaster.shieldDuration;
+        timeMasterRewindButton.EffectDuration = TimeMaster.rewindTime;
         hackerButton.EffectDuration = Hacker.duration;
         hackerVitalsButton.EffectDuration = Hacker.duration;
         hackerAdminTableButton.EffectDuration = Hacker.duration;
@@ -243,20 +250,29 @@ internal static class HudManagerStartPatch
 
         if (handcuffed && !deputyHandcuffedButtons.ContainsKey(PlayerControl.LocalPlayer.PlayerId))
         {
-            var maxI = CustomButton.buttons.Count;
-            for (var i = 0; i < maxI; i++)
+            var buttonsCopy = new List<CustomButton>(CustomButton.buttons);
+
+            CustomButton.buttons.RemoveAll(button => button == null || button.HasButton == null);
+
+            foreach (var button in buttonsCopy)
+            {
+                if (button == null || button.HasButton == null)
+                {
+                    System.Console.WriteLine("[INFO] Skipping invalid button");
+                    continue;
+                }
+
                 try
                 {
-                    if (CustomButton.buttons[i].HasButton()) // For each custombutton the player has
-                        addReplacementHandcuffedButton(CustomButton
-                            .buttons[i]); // The new buttons are the only non-handcuffed buttons now!
-                    CustomButton.buttons[i].isHandcuffed = true;
+                    if (button.HasButton())
+                        addReplacementHandcuffedButton(button);
+                    button.isHandcuffed = true;
                 }
                 catch (NullReferenceException)
                 {
-                    System.Console.WriteLine(
-                        "[WARNING] NullReferenceException from MeetingEndedUpdate().HasButton(), if theres only one warning its fine"); // Note: idk what this is good for, but i copied it from above /gendelo
+                    System.Console.WriteLine("[WARNING] Fallback: NullReferenceException in button processing");
                 }
+            }
 
             // Non Custom (Vanilla) Buttons. The Originals are disabled / hidden in UpdatePatch.cs already, just need to replace them. Can use any button, as we replace onclick etc anyways.
             // Kill Button if enabled for the Role
@@ -423,6 +439,46 @@ internal static class HudManagerStartPatch
             buttonText: "engineerRepair",
             abilityTexture: CustomButton.ButtonLabelType.UseButton
         );
+
+        // Engineer Open door
+        engineerOpenDoorButton = new CustomButton(
+                () =>
+                {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EngineerOpenDoorDone, Hazel.SendOption.Reliable, -1);
+                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPCProcedure.engineerOpenDoorDone(PlayerControl.LocalPlayer.PlayerId);
+                },
+                () => { return Engineer.remainingUsesDoorOpen != 0 && PlayerControl.LocalPlayer.isRole(RoleId.Engineer) && !PlayerControl.LocalPlayer.Data.IsDead; },
+                () =>
+                {
+                    if (engineerOpenHackerButtonUsesText != null && Engineer.remainingUsesDoorOpen != -1) engineerOpenHackerButtonUsesText.text = $"{Engineer.remainingUsesDoorOpen}";
+                    return PlayerControl.LocalPlayer.CanMove;
+                },
+                () =>
+                {
+                    engineerOpenDoorButton.Timer = engineerOpenDoorButton.MaxTimer;
+                    engineerOpenDoorButton.isEffectActive = false;
+                    engineerOpenDoorButton.actionButton.cooldownTimerText.color = Palette.EnabledColor;
+
+                    engineerOpenDoorButton.showButtonText = true;
+                },
+                Engineer.getDoorButtonSprite(),
+                 CustomButton.ButtonPositions.upperRowLeft,
+                __instance,
+                KeyCode.F,
+                true,
+                Engineer.doorOpenDuration,
+                () => { engineerOpenDoorButton.Timer = engineerOpenDoorButton.MaxTimer; },
+                buttonText: "engineerOpenDoorButtonText",
+                abilityTexture: CustomButton.ButtonLabelType.UseButton
+            );
+        engineerOpenHackerButtonUsesText = GameObject.Instantiate(engineerOpenDoorButton.actionButton.cooldownTimerText,
+            engineerOpenDoorButton.actionButton.cooldownTimerText.transform.parent);
+        engineerOpenHackerButtonUsesText.text = "";
+        engineerOpenHackerButtonUsesText.enableWordWrapping = false;
+        engineerOpenHackerButtonUsesText.transform.localScale = Vector3.one * 0.5f;
+        engineerOpenHackerButtonUsesText.transform.localPosition += new Vector3(-0.05f, 0.7f, 0);
 
         // Janitor Clean
         janitorCleanButton = new CustomButton(
@@ -605,8 +661,43 @@ internal static class HudManagerStartPatch
                 SoundEffectsManager.stop("timemasterShield");
             },
             buttonText: "timemasterShield",
-            abilityTexture: CustomButton.ButtonLabelType.EngineerButton
+            abilityTexture: CustomButton.ButtonLabelType.UseButton
         );
+
+        // Time Master Rewind Button
+        timeMasterRewindButton = new CustomButton(
+        () =>
+        {
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.TimeMasterRewindTime, SendOption.Reliable);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            RPCProcedure.timeMasterRewindTime();
+        },
+        () =>
+        {
+            return TimeMaster.timeMaster != null && TimeMaster.timeMaster == PlayerControl.LocalPlayer &&
+                   !PlayerControl.LocalPlayer.Data.IsDead && TimeMaster.canUseRewind;
+        },
+        () => { return PlayerControl.LocalPlayer.CanMove; },
+        () =>
+        {
+            timeMasterRewindButton.Timer = timeMasterRewindButton.MaxTimer;
+            timeMasterRewindButton.isEffectActive = false;
+            timeMasterRewindButton.actionButton.cooldownTimerText.color = Palette.EnabledColor;
+        },
+        TimeMaster.getRewindButtonSprite(),
+        CustomButton.ButtonPositions.upperRowRight,
+        __instance,
+        KeyCode.G,
+        true,
+        TimeMaster.rewindTime,
+        () =>
+        {
+            timeMasterRewindButton.Timer = timeMasterRewindButton.MaxTimer;
+        },
+        buttonText: "timeMasterRewind",
+        abilityTexture: CustomButton.ButtonLabelType.UseButton
+    );
 
         // Medic Shield
         medicShieldButton = new CustomButton(

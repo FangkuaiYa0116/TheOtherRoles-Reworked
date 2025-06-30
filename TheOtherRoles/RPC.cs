@@ -113,6 +113,7 @@ namespace TheOtherRoles
         EngineerFixLights = 120,
         EngineerFixSubmergedOxygen,
         EngineerUsedRepair,
+        EngineerOpenDoorDone,
         CleanBody,
         MedicSetShielded,
         ShieldedMurderAttempt,
@@ -161,6 +162,7 @@ namespace TheOtherRoles
         YoyoMarkLocation,
         YoyoBlink,
         BreakArmor,
+        RevivePlayer,
 
         // Gamemode
         SetGuesserGm,
@@ -539,6 +541,12 @@ namespace TheOtherRoles
                 Helpers.showFlash(Engineer.color, 0.5f, "engineerUsedRepairText");
             }
         }
+        public static void engineerOpenDoorDone(byte playerId)
+        {
+            PlayerControl player = Helpers.playerById(playerId);
+            if (!Engineer.exists || !player.isRole(RoleId.Engineer)) return;
+            Engineer.DisableDoors(playerId);
+        }
 
         public static void cleanBody(byte playerId, byte cleaningPlayerId)
         {
@@ -571,29 +579,7 @@ namespace TheOtherRoles
 
         public static void timeMasterRewindTime()
         {
-            TimeMaster.shieldActive = false; // Shield is no longer active when rewinding
-            SoundEffectsManager.stop("timemasterShield");  // Shield sound stopped when rewinding
-            if (TimeMaster.timeMaster != null && TimeMaster.timeMaster == PlayerControl.LocalPlayer)
-            {
-                resetTimeMasterButton();
-            }
-            FastDestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0f, 0.5f, 0.8f, 0.3f);
-            FastDestroyableSingleton<HudManager>.Instance.FullScreen.enabled = true;
-            FastDestroyableSingleton<HudManager>.Instance.FullScreen.gameObject.SetActive(true);
-            FastDestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(TimeMaster.rewindTime / 2, new Action<float>((p) =>
-            {
-                if (p == 1f) FastDestroyableSingleton<HudManager>.Instance.FullScreen.enabled = false;
-            })));
-
-            if (TimeMaster.timeMaster == null || PlayerControl.LocalPlayer == TimeMaster.timeMaster) return; // Time Master himself does not rewind
-
-            TimeMaster.isRewinding = true;
-
-            if (MapBehaviour.Instance)
-                MapBehaviour.Instance.Close();
-            if (Minigame.Instance)
-                Minigame.Instance.ForceClose();
-            PlayerControl.LocalPlayer.moveable = false;
+            TimeMaster.RewindTime();
         }
 
         public static void timeMasterShield()
@@ -1506,6 +1492,24 @@ namespace TheOtherRoles
                 Armored.armored.ShowFailedMurder();
             }
         }
+
+        public static void revivePlayer(byte playerId)
+        {
+            var player = Helpers.playerById(playerId);
+            player.Revive();
+            DeadBody[] array = UnityEngine.Object.FindObjectsOfType<DeadBody>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (GameData.Instance.GetPlayerById(array[i].ParentId).PlayerId == playerId)
+                {
+                    UnityEngine.Object.Destroy(array[i].gameObject);
+                }
+            }
+            if (RoleInfo.getRoleInfoForPlayer(player, false).FirstOrDefault().isNeutral || (!RoleInfo.getRoleInfoForPlayer(player, false).FirstOrDefault().isNeutral && !RoleInfo.getRoleInfoForPlayer(player, false).FirstOrDefault().isImpostor))
+                RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
+            else if (RoleInfo.getRoleInfoForPlayer(player, false).FirstOrDefault().isImpostor)
+                RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
+        }
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
@@ -1603,6 +1607,10 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.EngineerUsedRepair:
                     RPCProcedure.engineerUsedRepair();
+                    break;
+                case (byte)CustomRPC.EngineerOpenDoorDone:
+                    playerId = reader.ReadByte();
+                    RPCProcedure.engineerOpenDoorDone(playerId);
                     break;
                 case (byte)CustomRPC.CleanBody:
                     RPCProcedure.cleanBody(reader.ReadByte(), reader.ReadByte());
@@ -1771,6 +1779,9 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.BreakArmor:
                     RPCProcedure.breakArmor();
+                    break;
+                case (byte)CustomRPC.RevivePlayer:
+                    RPCProcedure.revivePlayer(reader.ReadByte());
                     break;
 
                 // Game mode

@@ -990,6 +990,18 @@
         "0": "Jackal and Sidekick See Vents Highlighted",
         "13": "\u8c7a\u72fc\u548c\u8ddf\u73ed\u770b\u5230\u901a\u98ce\u53e3\u7684\u6807\u8bb0"
     },
+    "doorOpenNumberOfUses": {
+        "0": "Number Of Pass Door Uses",
+        "13": "\u7a7f\u95e8\u6700\u5927\u6b21\u6570"
+    },
+    "doorOpenCooldown": {
+        "0": "Pass Door Cooldown",
+        "13": "\u7a7f\u95e8\u6280\u80fd\u51b7\u5374\u65f6\u95f4"
+    },
+    "doorOpenDuration": {
+        "0": "Pass Door Duration",
+        "13": "\u7a7f\u95e8\u6280\u80fd\u6301\u7eed\u65f6\u95f4"
+    },
     "sheriff": {
         "0": "Sheriff",
         "13": "\u8b66\u957f"
@@ -1134,9 +1146,21 @@
         "0": "Time Master Cooldown",
         "13": "\u65f6\u95f4\u4e4b\u76fe\u51b7\u5374\u65f6\u95f4"
     },
+    "timeMasterCanRewind": {
+        "0": "Time Master Can Use Rewind",
+        "13": "\u65f6\u95f4\u4e4b\u4e3b\u53ef\u4ee5\u4e3b\u52a8\u56de\u6eaf\u65f6\u95f4"
+    },
+    "timeMasterRewindCooldown": {
+        "0": "Time Master Rewind Cooldown",
+        "13": "\u65f6\u95f4\u4e4b\u4e3b\u4e3b\u52a8\u56de\u6eaf\u6280\u80fd\u51b7\u5374"
+    },
+    "timeMasterReviveDuringRewind": {
+        "0": "Tme Master Rewind Can Revive Player",
+        "13": "\u65f6\u95f4\u4e4b\u4e3b\u53ef\u4ee5\u590d\u6d3b\u5df2\u6b7b\u4ea1\u73a9\u5bb6"
+    },
     "timeMasterRewindTime": {
         "0": "Rewind Time",
-        "13": "\u65f6\u5149\u4e4b\u76fe\u56de\u6eaf\u65f6\u957f"
+        "13": "\u56de\u6eaf\u65f6\u957f"
     },
     "timeMasterShieldDuration": {
         "0": "Time Master Shield Duration",
@@ -2974,6 +2998,14 @@
     "eventKickButtonText": {
         "0": "Kick",
         "13": "\u8e22\u51fa"
+    },
+    "engineerOpenDoorButtonText": {
+        "0": "Pass",
+        "13": "\u7a7f\u8fc7"
+    },
+    "timeMasterRewind": {
+        "0": "Rewind",
+        "13": "\u56de\u6eaf\u65f6\u95f4"
     },
     "updatingText": {
         "0": "Updating <b>TheOtherRoles-Reworked</b>\nPlease wait...",

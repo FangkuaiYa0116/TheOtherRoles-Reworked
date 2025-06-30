@@ -149,7 +149,7 @@ The [Role Assignment](#role-assignment) section explains how the roles are being
 **Version 4.9.1** \
 EN:
 - Fix the bug that custom hats cannot download files
-- Fix the bug that the ModUpdater cannot use \
+- Fix the bug that the ModUpdater cannot be used \
 CN:
 - 修复自定义帽子无法下载文件的错误
 - 修复ModUpdater无法使用的错误

@@ -187,8 +187,13 @@ namespace TheOtherRoles.Patches
                 __instance.overlayHandle = DestroyableSingleton<DualshockLightManager>.Instance.AllocateLight();
             }
             yield return ShipStatus.Instance.CosmeticsCache.PopulateFromPlayers();
-            if (!isEnabled && !CustomOptionHolder.draftModeChooseRoleNoTeam.getBool())
+            if (isEnabled && CustomOptionHolder.draftModeChooseRoleNoTeam.getBool())
             {
+                __instance.BeginCrewmate(teamToShow);
+                __instance.overlayHandle.color = Palette.CrewmateBlue;
+                __instance.TeamTitle.text = "introPlayerText".Translate();
+            }
+            else {
                 if (!teamToShow.TrueForAll((Il2CppSystem.Predicate<PlayerControl>)(p => p.Data.Role.IsImpostor)))
                 {
                     __instance.BeginCrewmate(teamToShow);
@@ -199,12 +204,6 @@ namespace TheOtherRoles.Patches
                     __instance.BeginImpostor(teamToShow);
                     __instance.overlayHandle.color = Palette.ImpostorRed;
                 }
-            }
-            else
-            {
-                __instance.BeginCrewmate(teamToShow);
-                __instance.overlayHandle.color = Palette.CrewmateBlue;
-                __instance.TeamTitle.text = "introPlayerText".Translate();
             }
             Color c = __instance.TeamTitle.color;
             Color fade = Color.black;

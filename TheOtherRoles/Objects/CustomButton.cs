@@ -130,7 +130,7 @@ namespace TheOtherRoles.Objects
                 }
                 catch (NullReferenceException)
                 {
-                    System.Console.WriteLine("[WARNING] NullReferenceException from HudUpdate().HasButton(), if theres only one warning its fine");
+                    //System.Console.WriteLine("[WARNING] NullReferenceException from HudUpdate().HasButton(), if theres only one warning its fine");
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace TheOtherRoles.Objects
                 }
                 catch (NullReferenceException)
                 {
-                    System.Console.WriteLine("[WARNING] NullReferenceException from MeetingEndedUpdate().HasButton(), if theres only one warning its fine");
+                    //System.Console.WriteLine("[WARNING] NullReferenceException from MeetingEndedUpdate().HasButton(), if theres only one warning its fine");
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace TheOtherRoles.Objects
                 }
                 catch (NullReferenceException)
                 {
-                    System.Console.WriteLine("[WARNING] NullReferenceException from MeetingEndedUpdate().HasButton(), if theres only one warning its fine");
+                    //System.Console.WriteLine("[WARNING] NullReferenceException from MeetingEndedUpdate().HasButton(), if theres only one warning its fine");
                 }
             }
         }

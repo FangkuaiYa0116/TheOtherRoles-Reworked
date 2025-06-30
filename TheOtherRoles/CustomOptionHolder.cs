@@ -140,6 +140,9 @@ public class CustomOptionHolder
     public static CustomOption engineerNumberOfFixes;
     public static CustomOption engineerHighlightForImpostors;
     public static CustomOption engineerHighlightForTeamJackal;
+    public static CustomOption doorOpenNumberOfUses;
+    public static CustomOption doorOpenCooldown;
+    public static CustomOption doorOpenDuration;
 
     public static CustomOption sheriffSpawnRate;
     public static CustomOption sheriffCooldown;
@@ -167,6 +170,9 @@ public class CustomOptionHolder
 
     public static CustomOption timeMasterSpawnRate;
     public static CustomOption timeMasterCooldown;
+    public static CustomOption timeMasterCanRewind;
+    public static CustomOption timeMasterReviveDuringRewind;
+    public static CustomOption timeMasterRewindCooldown;
     public static CustomOption timeMasterRewindTime;
     public static CustomOption timeMasterShieldDuration;
 
@@ -642,6 +648,12 @@ public class CustomOptionHolder
             engineerSpawnRate);
         engineerHighlightForTeamJackal = CustomOption.Create(Types.Crewmate,
             "engineerHighlightForTeamJackal", true, engineerSpawnRate);
+        doorOpenNumberOfUses = CustomOption.Create(Types.Crewmate,
+            "doorOpenNumberOfUses", 0f, 0f, 15, 1f, engineerSpawnRate);
+        doorOpenCooldown = CustomOption.Create(Types.Crewmate,
+            "doorOpenCooldown", 30f, 0f, 60f, 2.5f, engineerSpawnRate);
+        doorOpenDuration = CustomOption.Create(Types.Crewmate,
+            "doorOpenDuration", 5f, 1f, 30f, 0.5f, engineerSpawnRate);
 
         sheriffSpawnRate = CustomOption.CreateRoleOption(Types.Crewmate, RoleId.Sheriff, rates, null, true);
         sheriffCooldown =
@@ -685,10 +697,16 @@ public class CustomOptionHolder
 
         timeMasterSpawnRate =
             CustomOption.CreateRoleOption(Types.Crewmate, RoleId.TimeMaster, rates, null, true);
-        timeMasterCooldown = CustomOption.Create(Types.Crewmate, "timeMasterCooldown", 30f, 10f, 120f, 2.5f,
+        timeMasterCooldown = CustomOption.Create(Types.Crewmate, "timeMasterCooldown", 30f, 2.5f, 60f, 2.5f,
             timeMasterSpawnRate);
+        timeMasterCanRewind =
+            CustomOption.Create(Types.Crewmate, "timeMasterCanRewind", true, timeMasterSpawnRate);
+        timeMasterRewindCooldown = CustomOption.Create(Types.Crewmate, "timeMasterRewindCooldown", 30f, 2.5f, 60f, 2.5f,
+            timeMasterCanRewind);
+        timeMasterReviveDuringRewind =
+            CustomOption.Create(Types.Crewmate, "timeMasterReviveDuringRewind", true, timeMasterSpawnRate);
         timeMasterRewindTime =
-            CustomOption.Create(Types.Crewmate, "timeMasterRewindTime", 3f, 1f, 10f, 1f, timeMasterSpawnRate);
+            CustomOption.Create(Types.Crewmate, "timeMasterRewindTime", 3f, 1f, 20f, 1f, timeMasterSpawnRate);
         timeMasterShieldDuration = CustomOption.Create(Types.Crewmate, "timeMasterShieldDuration", 3f, 1f, 20f,
             1f, timeMasterSpawnRate);
 
